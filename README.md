@@ -29,20 +29,7 @@ This project is built for teams who need a simple, clear, and extendable tool fo
 
 ## API
 
-Base format:
-
-- `/api/<module>?search=<value>`
-
-Examples:
-
-- `/api/resolve?search=8.8.8.8`
-- `/api/health?search=ping`
-- `/api/modules?search=list`
-- `/api/settings?search=list`
-
-Full API reference:
-
-- `docs/API.md`
+Full API reference: `docs/API.md`
 
 ## Database
 
