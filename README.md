@@ -46,13 +46,8 @@ Full API reference:
 
 ## Database
 
-Current schema:
-
-- `docs/DB_SCHEMA_CURRENT.sql`
-
-Incremental changes:
-
-- `db_changes.txt`
+- Current schema: [DB_SCHEMA_CURRENT.sql](docs/DB_SCHEMA_CURRENT.sql)
+- Incremental updates: [db_changes.txt](db_changes.txt)
 
 ## Tech
 
