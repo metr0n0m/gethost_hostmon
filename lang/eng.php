@@ -4,6 +4,8 @@ $lang['eng'] = [
     'nav_ip_host' => 'IP/Host',
     'nav_history' => 'Query History',
     'nav_monitor' => 'Monitor',
+    'nav_about' => 'About',
+    'nav_contacts' => 'Contacts',
 
     'resolve_title' => 'Resolve IP or Host',
     'resolve_input_label' => 'Enter IP or host',

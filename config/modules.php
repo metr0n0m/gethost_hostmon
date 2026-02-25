@@ -11,5 +11,8 @@ return [
         'class' => \GetHost\Modules\System\HealthModule::class,
         'enabled' => true,
     ],
+    'modules' => [
+        'class' => \GetHost\Modules\System\ModulesModule::class,
+        'enabled' => true,
+    ],
 ];
-

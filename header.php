@@ -23,18 +23,21 @@ $currentCode = function_exists('lang_code') ? lang_code() : 'eng';
             <a class="nav-link" href="index.php"><?= htmlspecialchars(t('nav_ip_host')) ?></a>
             <a class="nav-link" href="history.php"><?= htmlspecialchars(t('nav_history')) ?></a>
             <a class="nav-link" href="dashboard.php"><?= htmlspecialchars(t('nav_monitor')) ?></a>
+            <a class="nav-link" href="about.php"><?= htmlspecialchars(t('nav_about')) ?></a>
+            <a class="nav-link" href="contacts.php"><?= htmlspecialchars(t('nav_contacts')) ?></a>
         </div>
         <div class="ms-auto d-flex align-items-center gap-2">
             <a class="btn btn-sm btn-outline-light" href="?lang=eng" title="English">
                 <img src="https://flagcdn.com/20x15/gb.png" width="20" height="15" alt="English">
             </a>
-            <a class="btn btn-sm btn-outline-light" href="?lang=rus" title="Русский">
-                <img src="https://flagcdn.com/20x15/ru.png" width="20" height="15" alt="Русский">
+            <a class="btn btn-sm btn-outline-light" href="?lang=rus" title="Russian">
+                <img src="https://flagcdn.com/20x15/ru.png" width="20" height="15" alt="Russian">
             </a>
-            <a class="btn btn-sm btn-outline-light" href="?lang=heb" title="עברית">
-                <img src="https://flagcdn.com/20x15/il.png" width="20" height="15" alt="עברית">
+            <a class="btn btn-sm btn-outline-light" href="?lang=heb" title="Hebrew">
+                <img src="https://flagcdn.com/20x15/il.png" width="20" height="15" alt="Hebrew">
             </a>
         </div>
+    </div>
 </header>
 
 <main class="container my-4" id="alive">

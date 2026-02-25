@@ -3,7 +3,12 @@
 declare(strict_types=1);
 
 require_once __DIR__ . '/config.php';
-require_once __DIR__ . '/app/services/MonitoringService.php';
+require_once __DIR__ . '/src/Core/Support/Autoload.php';
+
+use GetHost\Core\Support\Autoload;
+use GetHost\Modules\Monitoring\MonitoringApplicationService;
+
+Autoload::init(__DIR__);
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     app_json(['success' => false, 'error' => t('msg_method_not_allowed')], 405);
@@ -14,7 +19,8 @@ $name = (string)($_POST['name'] ?? '');
 $url = (string)($_POST['url'] ?? '');
 
 try {
-    $result = monitor_add_site($pdo, $name, $url);
+    $service = new MonitoringApplicationService();
+    $result = $service->addSite($pdo, $name, $url);
 
     if (!$result['ok']) {
         app_json(['success' => false, 'error' => $result['error']], 422);

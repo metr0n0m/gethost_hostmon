@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use GetHost\Core\Http\ApiRequest;
 use GetHost\Core\Http\ApiResponse;
+use GetHost\Core\Kernel\ModuleManager;
 use GetHost\Core\Kernel\ModuleRegistry;
 use GetHost\Core\Support\Autoload;
 
@@ -14,7 +15,8 @@ Autoload::init(dirname(__DIR__));
 $moduleName = detect_module_name();
 $search = isset($_GET['search']) ? trim((string)$_GET['search']) : '';
 
-$moduleConfig = require __DIR__ . '/../config/modules.php';
+$manager = new ModuleManager(dirname(__DIR__));
+$moduleConfig = $manager->loadConfig();
 $registry = new ModuleRegistry(is_array($moduleConfig) ? $moduleConfig : []);
 $module = $registry->get($moduleName);
 

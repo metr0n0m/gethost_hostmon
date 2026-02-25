@@ -111,6 +111,8 @@ Main config file: `config.php`
 Important parameters:
 - `$DEFAULT_LANG = 'eng';`
 - `$DEFAULT_RECHECK_SECONDS = 30;`
+- `$APP_ABOUT_TEXT`
+- `$APP_CONTACTS` (`email`, `telegram`, `github`)
 
 Environment variables are expected in `.env` (do not commit secrets).
 
@@ -121,6 +123,10 @@ Environment variables are expected in `.env` (do not commit secrets).
 Use provided SQL templates:
 - `create_db.txt`
 - `db_changes.txt` (if present in your branch/history)
+
+`db_changes.txt` now includes optional runtime tables:
+- `modules` (enable/disable modules without code changes)
+- `app_settings` (override about/contact values from DB)
 
 Apply SQL using your DB tool (phpMyAdmin, CLI, etc.).
 
