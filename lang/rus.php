@@ -4,6 +4,8 @@ $lang['rus'] = [
     'nav_ip_host' => 'IP/Host',
     'nav_history' => 'История запросов',
     'nav_monitor' => 'Мониторинг',
+    'nav_about' => 'О проекте',
+    'nav_contacts' => 'Контакты',
 
     'resolve_title' => 'Определение IP и хоста',
     'resolve_input_label' => 'Введите IP или хост',
@@ -29,12 +31,12 @@ $lang['rus'] = [
     'table_last_time' => 'Последний раз',
     'table_time' => 'Время',
     'table_result' => 'Результат',
-    'table_counter' => 'Счётчик',
+    'table_counter' => 'Счетчик',
     'table_client_ip' => 'IP клиента',
     'table_os_browser' => 'ОС / Браузер',
     'table_tor' => 'Tor',
     'table_proxy' => 'Proxy',
-    'table_source_host' => 'Исходный хост',
+    'table_source_host' => 'Source host',
 
     'dashboard_title' => 'Дашборд мониторинга',
     'dashboard_refresh' => 'Интервал (сек)',
@@ -91,7 +93,8 @@ $lang['rus'] = [
     'msg_recheck_failed' => 'Не удалось перепроверить сайты',
     'msg_save_refresh_failed' => 'Не удалось сохранить интервал обновления',
     'msg_unknown_error' => 'Неизвестная ошибка',
-    'msg_method_not_allowed' => 'Метод не разрешён',
+    'msg_method_not_allowed' => 'Метод не разрешен',
     'msg_pass_query' => 'Передайте query',
     'msg_db_error' => 'Ошибка подключения к базе данных'
 ];
+

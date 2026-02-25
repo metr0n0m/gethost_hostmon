@@ -4,6 +4,8 @@ $lang['heb'] = [
     'nav_ip_host' => 'IP/Host',
     'nav_history' => 'היסטוריית בקשות',
     'nav_monitor' => 'ניטור',
+    'nav_about' => 'אודות',
+    'nav_contacts' => 'יצירת קשר',
 
     'resolve_title' => 'בדיקת IP או Host',
     'resolve_input_label' => 'הזן IP או host',
@@ -34,7 +36,7 @@ $lang['heb'] = [
     'table_os_browser' => 'OS / דפדפן',
     'table_tor' => 'Tor',
     'table_proxy' => 'Proxy',
-    'table_source_host' => 'Host מקור',
+    'table_source_host' => 'Source host',
 
     'dashboard_title' => 'דשבורד ניטור',
     'dashboard_refresh' => 'מרווח רענון (שניות)',
@@ -95,3 +97,4 @@ $lang['heb'] = [
     'msg_pass_query' => 'יש לשלוח query',
     'msg_db_error' => 'שגיאת חיבור למסד הנתונים'
 ];
+
