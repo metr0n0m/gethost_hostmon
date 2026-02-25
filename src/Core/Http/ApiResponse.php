@@ -96,7 +96,37 @@ final class ApiResponse
             $full = $prefix . '.' . $key;
             if (is_array($value)) {
                 if ($this->isList($value)) {
-                    $out[] = $full . ': ' . implode(', ', array_map(static fn($v) => (string)$v, $value));
+                    if ($value === []) {
+                        $out[] = $full . ': []';
+                        continue;
+                    }
+
+                    $allScalar = true;
+                    foreach ($value as $item) {
+                        if (is_array($item)) {
+                            $allScalar = false;
+                            break;
+                        }
+                    }
+
+                    if ($allScalar) {
+                        $out[] = $full . ': ' . implode(', ', array_map(
+                            static fn($v) => is_bool($v) ? ($v ? 'true' : 'false') : (string)$v,
+                            $value
+                        ));
+                        continue;
+                    }
+
+                    foreach ($value as $index => $item) {
+                        $itemKey = $full . '[' . $index . ']';
+                        if (is_array($item)) {
+                            foreach ($this->flatten($item, $itemKey) as $line) {
+                                $out[] = $line;
+                            }
+                        } else {
+                            $out[] = $itemKey . ': ' . (is_bool($item) ? ($item ? 'true' : 'false') : (string)$item);
+                        }
+                    }
                     continue;
                 }
                 foreach ($this->flatten($value, $full) as $line) {
