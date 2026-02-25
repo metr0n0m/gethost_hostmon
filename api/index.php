@@ -33,6 +33,11 @@ send_response($response);
 
 function detect_module_name(): string
 {
+    $moduleParam = strtolower(trim((string)($_GET['module'] ?? '')));
+    if ($moduleParam !== '') {
+        return $moduleParam;
+    }
+
     $uri = trim((string)($_SERVER['REQUEST_URI'] ?? ''), '/');
     $path = parse_url('/' . $uri, PHP_URL_PATH);
     if (!is_string($path)) {
