@@ -15,4 +15,8 @@ return [
         'class' => \GetHost\Modules\System\ModulesModule::class,
         'enabled' => true,
     ],
+    'settings' => [
+        'class' => \GetHost\Modules\System\SettingsModule::class,
+        'enabled' => true,
+    ],
 ];

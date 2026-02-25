@@ -1,0 +1,42 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, feature/** ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  php-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+
+      - name: Lint PHP files
+        run: |
+          set -e
+          find . -type f -name "*.php" -print0 | xargs -0 -n1 php -l
+
+  api-smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+
+      - name: Smoke test API modules
+        run: |
+          set -e
+          php -r '$_SERVER["REQUEST_URI"]="/api/health"; $_GET["search"]="ping"; include "api/index.php";' | grep -qi "status: ok"
+          php -r '$_SERVER["REQUEST_URI"]="/api/resolve"; $_GET["search"]="8.8.8.8"; include "api/index.php";' | grep -qi "code:"
+

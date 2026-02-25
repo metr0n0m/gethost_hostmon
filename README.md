@@ -121,8 +121,7 @@ Environment variables are expected in `.env` (do not commit secrets).
 ## Database Setup
 
 Use provided SQL templates:
-- `create_db.txt`
-- `db_changes.txt` (if present in your branch/history)
+- `db_changes.txt`
 
 `db_changes.txt` now includes optional runtime tables:
 - `modules` (enable/disable modules without code changes)
@@ -185,6 +184,18 @@ Module registration:
 Current API modules:
 - `resolve`
 - `health`
+- `modules`
+- `settings`
+
+Admin-ready module commands:
+- `/api/modules?search=list`
+- `/api/modules?search=enable:resolve`
+- `/api/modules?search=disable:resolve`
+
+Admin-ready settings commands:
+- `/api/settings?search=list`
+- `/api/settings?search=get:about_text`
+- `/api/settings?search=set:contact_email=support@example.com`
 
 ---
 
@@ -195,6 +206,7 @@ This repository uses a production-style workflow:
 - Work in feature/fix branches
 - Use full PR and issue templates from `.github/`
 - Follow `CONTRIBUTING.md`
+- CI workflow runs PHP lint + API smoke checks on push/PR
 
 Useful checks:
 ```powershell
