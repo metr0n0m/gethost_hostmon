@@ -137,6 +137,10 @@ Apply SQL using your DB tool (phpMyAdmin, CLI, etc.).
 
 At minimum, monitoring and history tables must exist before runtime.
 
+Reference files:
+- API: `docs/API.md`
+- Database schema: `docs/DB_SCHEMA_CURRENT.sql`
+
 ---
 
 ## Local Run
@@ -163,151 +167,16 @@ At minimum, monitoring and history tables must exist before runtime.
 - `ajax_get_refresh.php` - read current effective refresh interval
 - `ajax_get_query_history.php` - fetch query history and top counters
 
-## Modular API (Phase 1)
+## Modular API
 
-Base route:
-- `/api/`
-
-Rules:
-- Unified request parameter across modules: `search`
-- Plain text response (`text/plain`) by design
-- Optional JSON contract (`format=json` or `Accept: application/json`)
-
-Response contract:
-- `status` (`ok|error`)
-- `code` (stable machine code)
-- `message` (human-readable)
-- `data` (module payload)
-
-Examples:
+Quick examples:
 - `/api/resolve?search=8.8.8.8`
-- `/api/resolve?search=example.com`
 - `/api/health?search=ping`
-
-Module registration:
-- `config/modules.php`
-
-Current API modules:
-- `resolve`
-- `health`
-- `modules`
-- `settings`
-
-Admin-ready module commands:
 - `/api/modules?search=list`
-- `/api/modules?search=enable:resolve`
-- `/api/modules?search=disable:resolve`
-
-Admin-ready settings commands:
 - `/api/settings?search=list`
-- `/api/settings?search=get:about_text`
-- `/api/settings?search=set:contact_email=support@example.com`
 
-### API Reference (Current)
-
-#### Common rules
-- Base route: `/api/<module>?search=<value>`
-- Unified input parameter: `search`
-- Default response: `text/plain`
-- JSON response: add `format=json` or header `Accept: application/json`
-- Common response fields:
-  - `status` (`ok|error`)
-  - `code` (machine code)
-  - `message` (human-readable)
-  - `data` (payload)
-
-#### Module: `resolve`
-- Purpose: resolve host/IP query
-- Examples:
-  - `/api/resolve?search=8.8.8.8`
-  - `/api/resolve?search=example.com`
-  - `/api/resolve?search=example.com&format=json`
-- Notes:
-  - detects query type automatically
-  - includes protocol probe for host queries
-
-#### Module: `health`
-- Purpose: simple runtime health check
-- Example:
-  - `/api/health?search=ping`
-
-#### Module: `modules`
-- Purpose: module state management
-- Commands:
-  - `search=list`
-  - `search=enable:<module_name>`
-  - `search=disable:<module_name>`
-- Examples:
-  - `/api/modules?search=list`
-  - `/api/modules?search=enable:resolve`
-  - `/api/modules?search=disable:settings`
-
-#### Module: `settings`
-- Purpose: runtime app settings (DB-backed if `app_settings` table exists)
-- Commands:
-  - `search=list`
-  - `search=get:<key>`
-  - `search=set:<key>=<value>`
-- Examples:
-  - `/api/settings?search=list`
-  - `/api/settings?search=get:about_text`
-  - `/api/settings?search=set:contact_email=support@example.com`
-
-## How To Add A New Module
-
-Minimal flow (no extra architecture needed):
-
-1. Create module class in `src/Modules/<Group>/<YourModule>.php`
-2. Implement interface `GetHost\Core\Contracts\ApiModuleInterface`
-3. Add module entry to `config/modules.php`
-4. Call it as `/api/<module-key>?search=...`
-5. (Optional) persist module settings in `app_settings`
-
-Minimal template:
-
-```php
-<?php
-declare(strict_types=1);
-
-namespace GetHost\Modules\Custom;
-
-use GetHost\Core\Contracts\ApiModuleInterface;
-use GetHost\Core\Http\ApiRequest;
-use GetHost\Core\Http\ApiResponse;
-
-final class BrowserStatsModule implements ApiModuleInterface
-{
-    public function name(): string
-    {
-        return 'browser-stats';
-    }
-
-    public function handle(ApiRequest $request): ApiResponse
-    {
-        $search = trim($request->search());
-        if ($search === '') {
-            return new ApiResponse(422, 'error', 'BROWSER_SEARCH_REQUIRED', "Use search=<value>");
-        }
-
-        return new ApiResponse(
-            200,
-            'ok',
-            'BROWSER_STATS_OK',
-            'Browser stats module response',
-            ['search' => $search]
-        );
-    }
-}
-```
-
-Then register it in `config/modules.php`:
-
-```php
-'browser-stats' => [
-    'class' => \GetHost\Modules\Custom\BrowserStatsModule::class,
-    'enabled' => true,
-],
-```
+Full API guide:
+- `docs/API.md`
 
 ---
 
