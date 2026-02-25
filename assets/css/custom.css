@@ -1,0 +1,128 @@
+body {
+    padding-top: 70px;
+    padding-bottom: 60px;
+    background-color: #ffffff;
+}
+
+html,
+body {
+    overflow-x: hidden;
+}
+
+.footer-fixed {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1030;
+}
+
+.status-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 6px;
+}
+
+.status-active {
+    background-color: #28a745;
+}
+
+.status-inactive {
+    background-color: #ffc107;
+}
+
+.status-no_access {
+    background-color: #dc3545;
+}
+
+.status-pending {
+    background-color: #fd7e14;
+}
+
+.card {
+    border-radius: 8px;
+}
+
+.monitor-table .url-cell a {
+    display: inline-block;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    vertical-align: bottom;
+}
+
+.monitor-row-http-error > td {
+    background-color: #fff8e1 !important;
+}
+
+.monitor-table .action-cell {
+    width: 1%;
+    white-space: nowrap;
+}
+
+.monitor-table .action-buttons {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+}
+
+.monitor-table .action-buttons .btn {
+    white-space: nowrap;
+}
+
+.monitor-table .action-buttons .btn i {
+    margin-right: 0.35rem;
+}
+
+.index-monitor-table .action-buttons .action-label {
+    display: none;
+}
+
+.index-monitor-table .action-buttons .btn i {
+    margin-right: 0;
+}
+
+.index-monitor-table .action-buttons .btn {
+    width: 34px;
+    height: 34px;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.navbar .container-fluid {
+    gap: 0.5rem;
+}
+
+@media (max-width: 991.98px) {
+    .monitor-table .url-cell a {
+        max-width: 180px;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .monitor-table .url-cell a {
+        max-width: 120px;
+        white-space: normal;
+        overflow: visible;
+        text-overflow: clip;
+        word-break: break-word;
+    }
+
+    .navbar .navbar-nav {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 0.25rem;
+    }
+
+    .dashboard-monitor-table th:nth-child(4),
+    .dashboard-monitor-table td:nth-child(4),
+    .dashboard-monitor-table th:nth-child(5),
+    .dashboard-monitor-table td:nth-child(5) {
+        display: none;
+    }
+}

@@ -1,0 +1,30 @@
+USE gethost_db;
+
+CREATE TABLE IF NOT EXISTS query_counters (
+  id BIGINT AUTO_INCREMENT PRIMARY KEY,
+  query_type ENUM('ip_to_host', 'host_to_ip', 'invalid') NOT NULL,
+  query_value_norm VARCHAR(255) NOT NULL,
+  counter INT NOT NULL DEFAULT 1,
+  last_requested_at DATETIME NOT NULL,
+  UNIQUE KEY uq_query_counter (query_type, query_value_norm),
+  KEY idx_counter (counter)
+);
+
+CREATE TABLE IF NOT EXISTS query_history (
+  id BIGINT AUTO_INCREMENT PRIMARY KEY,
+  raw_query VARCHAR(255) NOT NULL,
+  normalized_query VARCHAR(255) NOT NULL,
+  query_type ENUM('ip_to_host', 'host_to_ip', 'invalid') NOT NULL,
+  result_summary VARCHAR(500) NOT NULL,
+  requested_at DATETIME NOT NULL,
+  client_ip VARCHAR(45) NULL,
+  client_os VARCHAR(64) NULL,
+  client_browser VARCHAR(64) NULL,
+  client_provider VARCHAR(255) NULL,
+  is_proxy TINYINT(1) NOT NULL DEFAULT 0,
+  is_tor TINYINT(1) NOT NULL DEFAULT 0,
+  user_agent VARCHAR(500) NULL,
+  counter_snapshot INT NOT NULL DEFAULT 1,
+  KEY idx_requested_at (requested_at),
+  KEY idx_query_lookup (query_type, normalized_query)
+);
