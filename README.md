@@ -152,6 +152,27 @@ At minimum, monitoring and history tables must exist before runtime.
 - `ajax_get_refresh.php` - read current effective refresh interval
 - `ajax_get_query_history.php` - fetch query history and top counters
 
+## Modular API (Phase 1)
+
+Base route:
+- `/api/`
+
+Rules:
+- Unified request parameter across modules: `search`
+- Plain text response (`text/plain`) by design
+
+Examples:
+- `/api/resolve?search=8.8.8.8`
+- `/api/resolve?search=example.com`
+- `/api/health?search=ping`
+
+Module registration:
+- `config/modules.php`
+
+Current API modules:
+- `resolve`
+- `health`
+
 ---
 
 ## Development Workflow

@@ -1,0 +1,28 @@
+{
+  "name": "gethost/hostmon",
+  "description": "GetHost monitoring and resolver application",
+  "type": "project",
+  "require": {
+    "php": ">=8.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "GetHost\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "GetHost\\Tests\\": "tests/"
+    }
+  },
+  "scripts": {
+    "lint": [
+      "php -l index.php",
+      "php -l dashboard.php",
+      "php -l history.php"
+    ]
+  },
+  "config": {
+    "sort-packages": true
+  }
+}
