@@ -41,24 +41,7 @@ It combines lookup, monitoring, and request analytics in one interface and one A
 
 ## API
 
-Working base format (current IIS setup):
-
-- `/api/?module=<module>&search=<value>`
-
-Default module is `resolve`, so this also works:
-
-- `/api/?search=8.8.8.8`
-
-Quick examples:
-
-- `/api/?module=resolve&search=example.com`
-- `/api/?module=health&search=ping`
-- `/api/?module=modules&search=list`
-- `/api/?module=settings&search=list`
-
-Add `&format=json` (or header `Accept: application/json`) for JSON response.
-
-Full reference: [docs/API.md](docs/API.md)
+API documentation is maintained separately: [docs/API.md](docs/API.md)
 
 ## Database
 
