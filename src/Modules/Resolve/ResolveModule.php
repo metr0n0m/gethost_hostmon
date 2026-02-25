@@ -19,32 +19,34 @@ final class ResolveModule implements ApiModuleInterface
     {
         $search = $request->search();
         if ($search === '') {
-            return new ApiResponse(400, "error: missing required query parameter 'search'");
+            return new ApiResponse(
+                400,
+                'error',
+                'VALIDATION_ERROR',
+                "Missing required query parameter 'search'"
+            );
         }
 
-        require_once __DIR__ . '/../../../app/services/ResolverService.php';
-        $result = resolver_resolve($search);
+        $service = new ResolveApplicationService();
+        $result = $service->resolve($search);
 
-        $lines = [];
-        $lines[] = 'query: ' . $search;
-        $lines[] = 'type: ' . ($result['query_type'] ?? 'invalid');
+        $data = [
+            'query' => $search,
+            'type' => (string)($result['query_type'] ?? 'invalid'),
+            'protocol' => $this->protocolLabel($result),
+            'host' => (string)($result['resolved_host'] ?? ''),
+            'ips' => is_array($result['resolved_ips'] ?? null) ? $result['resolved_ips'] : [],
+            'summary' => (string)($result['result_summary'] ?? ''),
+        ];
 
-        if (($result['query_type'] ?? '') === 'host_to_ip') {
-            $lines[] = 'protocol: ' . $this->protocolLabel($result);
-            $ips = $result['resolved_ips'] ?? [];
-            $lines[] = 'ip: ' . (is_array($ips) && $ips ? implode(', ', $ips) : 'not found');
-        } elseif (($result['query_type'] ?? '') === 'ip_to_host') {
-            $host = (string)($result['resolved_host'] ?? '');
-            $lines[] = 'host: ' . ($host !== '' ? $host : 'not found');
-        }
-
-        $message = trim((string)($result['message'] ?? ''));
-        if ($message !== '') {
-            $lines[] = 'message: ' . $message;
-        }
-
-        $status = !empty($result['success']) ? 200 : 422;
-        return new ApiResponse($status, implode(PHP_EOL, $lines));
+        $ok = !empty($result['success']);
+        return new ApiResponse(
+            $ok ? 200 : 422,
+            $ok ? 'ok' : 'error',
+            $ok ? 'RESOLVE_OK' : 'RESOLVE_FAILED',
+            (string)($result['message'] ?? ''),
+            $data
+        );
     }
 
     private function protocolLabel(array $result): string
@@ -78,4 +80,3 @@ final class ResolveModule implements ApiModuleInterface
         return 'no response on http/https';
     }
 }
-

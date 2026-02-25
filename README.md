@@ -160,6 +160,13 @@ Base route:
 Rules:
 - Unified request parameter across modules: `search`
 - Plain text response (`text/plain`) by design
+- Optional JSON contract (`format=json` or `Accept: application/json`)
+
+Response contract:
+- `status` (`ok|error`)
+- `code` (stable machine code)
+- `message` (human-readable)
+- `data` (module payload)
 
 Examples:
 - `/api/resolve?search=8.8.8.8`

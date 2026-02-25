@@ -5,26 +5,11 @@ declare(strict_types=1);
 use GetHost\Core\Http\ApiRequest;
 use GetHost\Core\Http\ApiResponse;
 use GetHost\Core\Kernel\ModuleRegistry;
+use GetHost\Core\Support\Autoload;
 
 require_once __DIR__ . '/../app/bootstrap.php';
-
-$composerAutoload = __DIR__ . '/../vendor/autoload.php';
-if (is_file($composerAutoload)) {
-    require_once $composerAutoload;
-} else {
-    spl_autoload_register(static function (string $class): void {
-        $prefix = 'GetHost\\';
-        if (!str_starts_with($class, $prefix)) {
-            return;
-        }
-
-        $relative = substr($class, strlen($prefix));
-        $path = __DIR__ . '/../src/' . str_replace('\\', '/', $relative) . '.php';
-        if (is_file($path)) {
-            require_once $path;
-        }
-    });
-}
+require_once __DIR__ . '/../src/Core/Support/Autoload.php';
+Autoload::init(dirname(__DIR__));
 
 $moduleName = detect_module_name();
 $search = isset($_GET['search']) ? trim((string)$_GET['search']) : '';
@@ -35,12 +20,14 @@ $module = $registry->get($moduleName);
 
 if ($module === null) {
     $available = implode(', ', $registry->names());
-    send_text_response(new ApiResponse(404, 'error: module not found. available: ' . $available));
+    send_response(new ApiResponse(404, 'error', 'MODULE_NOT_FOUND', 'Module not found', [
+        'available' => $available,
+    ]));
     exit;
 }
 
 $response = $module->handle(new ApiRequest($moduleName, $search));
-send_text_response($response);
+send_response($response);
 
 function detect_module_name(): string
 {
@@ -66,9 +53,26 @@ function detect_module_name(): string
     return strtolower($segments[1]);
 }
 
-function send_text_response(ApiResponse $response): void
+function send_response(ApiResponse $response): void
 {
     http_response_code($response->statusCode());
+    if (request_wants_json()) {
+        header('Content-Type: application/json; charset=utf-8');
+        echo json_encode($response->toArray(), JSON_UNESCAPED_UNICODE);
+        return;
+    }
+
     header('Content-Type: text/plain; charset=utf-8');
-    echo $response->body();
+    echo $response->toPlainText();
+}
+
+function request_wants_json(): bool
+{
+    $format = strtolower(trim((string)($_GET['format'] ?? '')));
+    if ($format === 'json') {
+        return true;
+    }
+
+    $accept = strtolower((string)($_SERVER['HTTP_ACCEPT'] ?? ''));
+    return str_contains($accept, 'application/json');
 }

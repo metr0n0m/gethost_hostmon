@@ -17,13 +17,15 @@ final class HealthModule implements ApiModuleInterface
 
     public function handle(ApiRequest $request): ApiResponse
     {
-        $lines = [
-            'status: ok',
-            'module: health',
-            'search: ' . $request->search(),
-        ];
-
-        return new ApiResponse(200, implode(PHP_EOL, $lines));
+        return new ApiResponse(
+            200,
+            'ok',
+            'HEALTH_OK',
+            'Health check passed',
+            [
+                'module' => 'health',
+                'search' => $request->search(),
+            ]
+        );
     }
 }
-
