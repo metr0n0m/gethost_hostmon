@@ -1,16 +1,21 @@
 # API
 
-Base URL:
+## Base URL formats
 
-- `/api/<module>?search=<value>`
+- Stable (current production-safe format): `/api/?module=<module>&search=<value>`
+- Short format (optional): `/api/<module>?search=<value>` only if URL rewrite is configured on the server
 
-Common rules:
+If `module` is omitted, default module is `resolve`:
 
-- Input parameter in all modules: `search`
-- Default response: `text/plain`
-- JSON response: add `format=json` (or header `Accept: application/json`)
+- `/api/?search=8.8.8.8`
 
-Common JSON contract:
+## Common rules
+
+- All modules accept request input via `search`
+- Default response format: `text/plain; charset=utf-8`
+- JSON response: add `format=json` or send `Accept: application/json`
+
+## Common JSON contract
 
 ```json
 {
@@ -21,23 +26,23 @@ Common JSON contract:
 }
 ```
 
----
-
-## Quick Start
+## Quick start (working examples)
 
 1. Health check:
 
-`GET /api/health?search=ping`
+`GET /api/?module=health&search=ping`
 
 2. Resolve host/IP:
 
-`GET /api/resolve?search=8.8.8.8`
+`GET /api/?module=resolve&search=8.8.8.8`
 
-3. Get JSON:
+3. Resolve without explicit module (default `resolve`):
 
-`GET /api/resolve?search=example.com&format=json`
+`GET /api/?search=example.com`
 
----
+4. Get JSON:
+
+`GET /api/?module=resolve&search=example.com&format=json`
 
 ## Modules
 
@@ -51,10 +56,10 @@ Purpose:
 
 Request examples:
 
-- `/api/resolve?search=8.8.8.8`
-- `/api/resolve?search=example.com`
+- `/api/?module=resolve&search=8.8.8.8`
+- `/api/?module=resolve&search=example.com`
 
-Successful JSON example:
+Success JSON example:
 
 ```json
 {
@@ -72,8 +77,9 @@ Successful JSON example:
 }
 ```
 
-Error codes:
+Codes:
 
+- `RESOLVE_OK`
 - `VALIDATION_ERROR`
 - `RESOLVE_FAILED`
 
@@ -85,7 +91,7 @@ Purpose:
 
 Request:
 
-- `/api/health?search=ping`
+- `/api/?module=health&search=ping`
 
 Code:
 
@@ -105,9 +111,9 @@ Commands:
 
 Examples:
 
-- `/api/modules?search=list`
-- `/api/modules?search=enable:resolve`
-- `/api/modules?search=disable:settings`
+- `/api/?module=modules&search=list`
+- `/api/?module=modules&search=enable:resolve`
+- `/api/?module=modules&search=disable:settings`
 
 Codes:
 
@@ -132,9 +138,9 @@ Commands:
 
 Examples:
 
-- `/api/settings?search=list`
-- `/api/settings?search=get:about_text`
-- `/api/settings?search=set:contact_email=support@example.com`
+- `/api/?module=settings&search=list`
+- `/api/?module=settings&search=get:about_text`
+- `/api/?module=settings&search=set:contact_email=support@example.com`
 
 Codes:
 
@@ -148,14 +154,12 @@ Codes:
 - `SETTINGS_TABLE_NOT_CONFIGURED`
 - `SETTINGS_KEY_NOT_FOUND`
 
----
-
-## How to Add New Module
+## Add a new module
 
 1. Create class in `src/Modules/<Group>/<ModuleName>.php`
 2. Implement `GetHost\Core\Contracts\ApiModuleInterface`
 3. Register module in `config/modules.php`
-4. Call module as `/api/<module-key>?search=...`
+4. Call module as `/api/?module=<module-key>&search=...`
 
 Minimal template:
 
@@ -187,4 +191,3 @@ final class BrowserStatsModule implements ApiModuleInterface
     }
 }
 ```
-
